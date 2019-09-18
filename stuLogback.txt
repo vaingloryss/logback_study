@@ -1,0 +1,49 @@
+比较常用的组合使用方式是:
+Slf4j+Logback
+Commons Logging+Log4j
+
+Slf4j、Logback和Log4j都是由 Ceki 创建；
+Log4j和Ceki一块加入了Apache，Ceki离开Apache后创建了Slf4j和Logback；
+由于LogBack日渐受到欢迎，Apache在Log4j上发展了Log4j2。
+
+这里我们采用的是Slf4j（日志门面）+Logback（日志实现）：
+
+logback分成三个模块：logback-core，logback- classic，logback-access。
+logback-core提供了logBack的核心功能，是另外两个组件的基础；
+logback-classic模块实现了SLF4J API；
+logback-access模块与Servlet容器集成提供Http来访问日志的功能。
+
+1、获取 logger 的两种方式：
+
+//通过类名获取，logger名即为该类名，推荐
+private static Logger logger = LoggerFactory.getLogger(TestLogback01.class);
+//通过logger名获取
+private static Logger logger1 = LoggerFactory.getLogger("myLogger");
+
+2、常用的日志方法
+
+logger.trace("trace....");
+logger.info("info....");
+logger.debug("debug....");
+logger.warn("warn....");
+logger.error("error....");
+
+3、打印logback内部状态信息的三种方式：
+
+（1）代码方式：
+LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+StatusPrinter.print(loggerContext);
+
+（2）配置文件中配置：
+<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+（3）配置文件的根结点：
+<configuration debug="true">
+
+4、Logback启动时会默认在类路径下或者resources文件夹中加载名为logback-test.xml、logback.groovy和logback.xml
+三个默认名称的配置文件，如果这三个文件都不存在，则会向跟appender中添加一个默认的 appender ，即将日志信息打印到控制台。
+
+5、如果不以上诉三个文件名命名，或者不放在类路径下或resources中，需要手动加载配置文件，
+System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY,"src/main/resources/logback.xml");
+
+

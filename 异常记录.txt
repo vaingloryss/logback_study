@@ -1,0 +1,4 @@
+导入slf4j.jar 和 logback-core.jar 依赖，运行测试打印日志信息，出现如下异常：
+Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+解决：将下列jar文件中的一个（且只能是一个）引入项目中：这里使用logback-classic.jar
+slf4j-nop.jar, slf4j-simple.jar, slf4j-log4j12.jar, slf4j-jdk14.jar, logback-classic.jar。
